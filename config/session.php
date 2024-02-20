@@ -31,10 +31,8 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
-
-    'expire_on_close' => false,
-
+    'lifetime' => env('SESSION_LIFETIME', 720), // ubah waktu kedaluwarsa menjadi 12 jam
+    'expire_on_close' => true, // ubah sesi agar kedaluwarsa saat browser ditutup
     /*
     |--------------------------------------------------------------------------
     | Session Encryption

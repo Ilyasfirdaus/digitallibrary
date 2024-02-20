@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class Buku extends Model
 {
     use HasFactory;
-
+    protected $table = 'bukus';
     protected $primaryKey = 'bukuID';
-    protected $fillable = ['judul', 'penulis', 'penerbit', 'tahun_terbit'];
+    protected $fillable = ['judul', 'penulis', 'penerbit', 'tahun_terbit', 'foto'];
+
+
+
 }

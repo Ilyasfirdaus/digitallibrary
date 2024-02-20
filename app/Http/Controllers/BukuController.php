@@ -21,18 +21,33 @@ class BukuController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'judul' => 'required',
-            'penulis' => 'required',
-            'penerbit' => 'required',
-            'tahun_terbit' => 'required|integer',
+
+        $validatedData = $request->validate([
+            'judul'     => 'required',
+            'penulis'     => 'required',
+            'penerbit'     => 'required',
+            'tahun_terbit'     => 'required',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+       
+           
         ]);
 
-        Buku::create($request->all());
+        $buku = Buku::create([
+            'judul'=>$request->judul,
+            'penulis'=>$request->penulis,
+            'penerbit'=>$request->penerbit,
+            'tahun_terbit'=>$request->tahun_terbit,
+            'foto' => $request->file('foto')->store('public/images'),
+    
+        ]);
+
+        
+
 
         return redirect()->route('bukus.index')
             ->with('success', 'Buku berhasil ditambahkan!');
     }
+
 
     public function edit($bukuID)
     {
@@ -47,7 +62,10 @@ class BukuController extends Controller
             'penulis' => 'required',
             'penerbit' => 'required',
             'tahun_terbit' => 'required|integer',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+         
         ]);
+    
 
         $buku = Buku::findOrFail($bukuID);
         $buku->update([
@@ -55,6 +73,8 @@ class BukuController extends Controller
             'penulis'     => $request->penulis,
             'penerbit'     => $request->penerbit,
             'tahun_terbit'     => $request->tahun_terbit,
+            'foto' => $request->file('foto')->store('public/images'),
+           
         ]);
 
         return redirect()->route('bukus.index')
@@ -63,9 +83,14 @@ class BukuController extends Controller
 
     public function destroy($bukuID)
     {
-        $buku=Buku::findOrFail($bukuID);
+        $buku = Buku::findOrFail($bukuID);
         $buku->delete();
 
         return redirect()->route('bukus.index')->with(['success' => 'Buku Berhasil Dihapus!']);
     }
+
+  
+ 
+
+    
 }
